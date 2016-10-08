@@ -23,5 +23,11 @@ _testmain.go
 *.test
 *.prof
 
-# Dev environment variables
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# external packages folder
+vendor/
+
+# local environment variables
 .env
