@@ -22,36 +22,12 @@ const homePage = `
       .Header--title {
         color: #fff;
       }
-
-      .sign-in-button {
-          color: #fff;
-          text-decoration: none;
-          background-color: #27ae60;
-          padding: 8px 12px;
-          border-radius: 4px;
-      }
-      .sign-in-button:hover {
-        background-color: #2ecc71;
-      }
-
-	  .navigation {
-		max-width: 640px;
-		margin-left: auto;
-		margin-right: auto;
-		padding: 1rem;
-	  }
     </style>
 </head>
 <body>
-    <div class="content">
-        <h1 class="Header--title">Master of Malt Contacts Manager</h1>
-        <a class="sign-in-button" href="/auth/redirect" title="Sign in">Sign in with Google</a>
-    </div>
-	<div class="navigation">
-	  <nav>
-	    <a href="/contacts">All contacts</a>
-	  </nav>
-	</div>
+  <div class="content">
+    <h1 class="Header--title">Contactless</h1>
+  </div>
 </body>
 </html>
 `
