@@ -80,7 +80,12 @@ func main() {
 		log.Fatalln("You must set the environment variable PORT")
 	}
 
-	listenOn := "127.0.0.1:" + port
+	var listenOn string
+	if appEnv == "production" {
+		listenOn = "0.0.0.0:" + port
+	} else {
+		listenOn = "127.0.0.1:" + port
+	}
 	log.Println("Listening on ", listenOn)
 	http.ListenAndServe(listenOn, nil)
 }
