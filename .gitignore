@@ -28,6 +28,7 @@ _testmain.go
 
 # external packages folder
 vendor/
+!vendor/vendor.json
 
 # local environment variables
 .env
