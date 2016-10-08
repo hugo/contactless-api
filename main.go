@@ -61,6 +61,8 @@ func main() {
 		),
 	)
 
+	http.HandleFunc("/favicon.ico", handlers.Favicon)
+
 	http.HandleFunc("/", handlers.Home)
 
 	http.HandleFunc("/auth",
