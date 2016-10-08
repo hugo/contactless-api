@@ -32,3 +32,6 @@ vendor/
 
 # local environment variables
 .env
+
+# gin binary
+gin-bin
