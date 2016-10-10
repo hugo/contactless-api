@@ -22,7 +22,7 @@ func Googlify(contact Contact) *GoogleContact {
 		googleContact.GoogleEmails = append(
 			googleContact.GoogleEmails,
 			GoogleEmail{
-				email.Data,
+				email.Address,
 				email.Primary,
 				email.Rel,
 				email.DisplayName,

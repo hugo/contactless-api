@@ -10,16 +10,16 @@ type JSONContact struct {
 		FullName   string `json:"fullName"`
 	} `json:"name"`
 	Emails []struct {
-		Email       string `json:"email"`
+		Address     string `json:"email"`
 		Primary     bool   `json:"primary"`
 		Type        string `json:"type"`
 		DisplayName string `json:"displayName"`
-	} `json:"emailAddresses"`
+	} `json:"emails"`
 	PhoneNumbers []struct {
 		Number  string `json:"number"`
 		Primary bool   `json:"primary"`
 		Type    string `json:"type"`
-	} `json:"emailAddresses"`
+	} `json:"phoneNumbers"`
 	Addresses []struct {
 		Primary  bool   `json:"primary"`
 		Type     string `json:"type"`
@@ -46,12 +46,12 @@ func ToJSON(contact Contact) JSONContact {
 		jsonContact.Emails = append(
 			jsonContact.Emails,
 			struct {
-				Email       string `json:"email"`
+				Address     string `json:"email"`
 				Primary     bool   `json:"primary"`
 				Type        string `json:"type"`
 				DisplayName string `json:"displayName"`
 			}{
-				email.Data,
+				email.Address,
 				email.Primary,
 				email.Rel,
 				email.DisplayName,
@@ -114,7 +114,7 @@ func FromJSON(jsonContact JSONContact) Contact {
 	for _, email := range jsonContact.Emails {
 		contact.Emails = append(contact.Emails,
 			Email{
-				email.Email,
+				email.Address,
 				email.Primary,
 				email.Type,
 				email.DisplayName,

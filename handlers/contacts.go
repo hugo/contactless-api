@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"errors"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -35,6 +36,7 @@ func getToken(r *http.Request) (string, error) {
 func HandleContacts(rw http.ResponseWriter, r *http.Request) {
 	token, err := getToken(r)
 	if err != nil {
+		log.Printf("Error parsing token from request %s\n", err.Error())
 		http.Error(
 			rw,
 			http.StatusText(http.StatusUnauthorized),
@@ -64,6 +66,7 @@ func HandleContacts(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	if res.StatusCode != 200 {
+		log.Printf("Error fatching contact from Google %d\n", res.StatusCode)
 		http.Error(
 			rw,
 			http.StatusText(res.StatusCode),
@@ -80,7 +83,7 @@ func HandleContacts(rw http.ResponseWriter, r *http.Request) {
 	}
 	err = xml.NewDecoder(res.Body).Decode(&feed)
 	if err != nil {
-		log.Printf("Failed to create contact: %s\n", err.Error())
+		log.Printf("Failed to parse contact: %s\n", err.Error())
 		http.Error(
 			rw,
 			http.StatusText(http.StatusInternalServerError),
@@ -112,6 +115,7 @@ func HandleContacts(rw http.ResponseWriter, r *http.Request) {
 func ContactAdd(rw http.ResponseWriter, r *http.Request) {
 	token, err := getToken(r)
 	if err != nil {
+		log.Printf("Error parsing token from request: %s\n", err.Error())
 		http.Error(
 			rw,
 			http.StatusText(http.StatusUnauthorized),
@@ -167,10 +171,13 @@ func ContactAdd(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	if res.StatusCode != 201 {
+		log.Printf("Error creating contact on Google's server: %d\n", res.StatusCode)
+		body, _ := ioutil.ReadAll(res.Body)
+		log.Println(string(body))
 		http.Error(
 			rw,
-			http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError,
+			http.StatusText(res.StatusCode),
+			res.StatusCode,
 		)
 		return
 	}
@@ -247,11 +254,11 @@ func ContactDelete(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	if res.StatusCode != 200 {
-		log.Println(res.StatusCode)
+		log.Printf("Error deleting from Google's servers: %d\n", res.StatusCode)
 		http.Error(
 			rw,
-			http.StatusText(http.StatusUnauthorized),
-			http.StatusUnauthorized,
+			http.StatusText(res.StatusCode),
+			res.StatusCode,
 		)
 		return
 	}

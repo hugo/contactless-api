@@ -28,7 +28,7 @@ type Contents []Content
 
 // Email is an email address
 type Email struct {
-	Data        string `xml:",innerxml"`
+	Address     string `xml:"address,attr"`
 	Primary     bool   `xml:"primary,attr,omitempty"`
 	Rel         string `xml:"rel,attr"`
 	DisplayName string `xml:"displayName,attr"`

@@ -28,7 +28,7 @@ type GoogleContents []GoogleContent
 
 // GoogleEmail is an email address
 type GoogleEmail struct {
-	Data        string `xml:",innerxml"`
+	Address     string `xml:"address,attr"`
 	Primary     bool   `xml:"primary,attr,omitempty"`
 	Rel         string `xml:"rel,attr"`
 	DisplayName string `xml:"gd:displayName,attr"`
