@@ -6,17 +6,25 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 )
 
 const (
 	googleOAuthCodeEndpoint  = "https://accounts.google.com/o/oauth2/v2/auth"
 	googleOAuthTokenEndpoint = "https://www.googleapis.com/oauth2/v4/token"
-	redirectURI              = "http://localhost:3000/auth/callback"
 	responseType             = "code"
 	scopes                   = "http://www.google.com/m8/feeds/contacts/"
 	grantType                = "authorization_code"
 )
+
+func redirectURI() string {
+	uri := os.Getenv("OAUTH_REDIRECT_URI")
+	if uri == "" {
+		uri = "http://localhost:3000/auth/callback"
+	}
+	return uri
+}
 
 // Token is an oAuth token from Google's oAuth2 server
 type Token struct {
@@ -37,7 +45,7 @@ func GetGoogleOAuthURI(clientID string) (string, error) {
 	q := url.Values{}
 	q.Add("response_type", responseType)
 	q.Add("client_id", clientID)
-	q.Add("redirect_uri", redirectURI)
+	q.Add("redirect_uri", redirectURI())
 	q.Add("scope", scopes)
 	uri.RawQuery = q.Encode()
 
@@ -50,7 +58,7 @@ func GetGoogleOAuthAccessToken(clientID, clientSecret, code string) (*Token, err
 	data.Add("code", code)
 	data.Add("client_id", clientID)
 	data.Add("client_secret", clientSecret)
-	data.Add("redirect_uri", redirectURI)
+	data.Add("redirect_uri", redirectURI())
 	data.Add("grant_type", grantType)
 
 	req, err := http.NewRequest(
