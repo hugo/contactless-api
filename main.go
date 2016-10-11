@@ -45,34 +45,43 @@ func main() {
 
 	http.HandleFunc("/contacts",
 		middleware.Chain(handlers.HandleContacts,
+			middleware.HTTPSMiddleware(appEnv == "production"),
 			middleware.CORSMiddleware(corsConfig),
 		),
 	)
 
 	http.HandleFunc("/contacts/delete",
 		middleware.Chain(handlers.ContactDelete,
+			middleware.HTTPSMiddleware(appEnv == "production"),
 			middleware.CORSMiddleware(corsConfig),
 		),
 	)
 
 	http.HandleFunc("/contacts/add",
 		middleware.Chain(handlers.ContactAdd,
+			middleware.HTTPSMiddleware(appEnv == "production"),
 			middleware.CORSMiddleware(corsConfig),
 		),
 	)
 
 	http.HandleFunc("/favicon.ico", handlers.Favicon)
 
-	http.HandleFunc("/", handlers.Home)
+	http.HandleFunc("/",
+		middleware.Chain(handlers.Home,
+			middleware.HTTPSMiddleware(appEnv == "production"),
+		),
+	)
 
 	http.HandleFunc("/auth",
 		middleware.Chain(handlers.OAuthURI(clientID),
+			middleware.HTTPSMiddleware(appEnv == "production"),
 			middleware.CORSMiddleware(corsConfig),
 		),
 	)
 
 	http.HandleFunc("/auth/token",
 		middleware.Chain(handlers.HandleGoogleOAuthCallback(clientID, clientSecret),
+			middleware.HTTPSMiddleware(appEnv == "production"),
 			middleware.CORSMiddleware(corsConfig),
 		),
 	)
