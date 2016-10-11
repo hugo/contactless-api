@@ -5,6 +5,7 @@ import "net/http"
 const homePage = `
 <html>
 <head>
+    <meta name="google-site-verification" content="kA-AnHBsa5Zyu9r8K81laEYgDy45x1WT54FZplcY7Dc" /> 
     <style>
       body {
           font-family: -apple-system, 'helvetica neue', helvetica, arial, sans-serif;
