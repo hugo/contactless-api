@@ -22,10 +22,12 @@ func HTTPSMiddleware(enabled bool) Middleware {
 					"Location",
 					url.String(),
 				)
-				rw.WriteHeader(http.StatusSeeOther)
+				rw.WriteHeader(http.StatusPermanentRedirect)
 				r = r.WithContext(
 					context.WithValue(r.Context(), responseWrittenKey, true),
 				)
+				handler(rw, r)
+			} else {
 				handler(rw, r)
 			}
 		}
